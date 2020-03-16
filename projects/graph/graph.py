@@ -178,7 +178,7 @@ class Graph:
                     # Push THE COPY
                     s.push(copy)
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -186,7 +186,27 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Check if the node has been visited
+        if visited is None:
+            visited = set()
+        # Check if a path exists
+        if path is None:
+            path = []
+        # Mark it as visited
+        visited.add(starting_vertex)
+        path = path + [starting_vertex]
+        # Checking to see if we are at the destination, if we are return the path
+        if starting_vertex == destination_vertex:
+            return path
+        # Call dfs_recursive on each neighbor
+        for neighbor in self.get_neighbors(starting_vertex):
+            # If the neighbor is not in the visited set
+            if neighbor not in visited:
+                updated_path = self.dfs_recursive(
+                    neighbor, destination_vertex, visited, path)
+                # If items are within the updated_path, return it
+                if updated_path is not None:
+                    return updated_path
 
 
 if __name__ == '__main__':
@@ -231,7 +251,9 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("BFT: ")
     graph.bft(1)
+    print("---")
 
     '''
     Valid DFT paths:
@@ -240,19 +262,29 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("DFT: ")
     graph.dft(1)
+    print("---")
+    print("DFT, recursive: ")
     graph.dft_recursive(1)
+    print("---")
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("BFS: ")
     print(graph.bfs(1, 6))
+    print("---")
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("DFS: ")
     print(graph.dfs(1, 6))
-    # print(graph.dfs_recursive(1, 6))
+    print("---")
+    print("DFS, recursive: ")
+    print("---")
+    print(graph.dfs_recursive(1, 6))
