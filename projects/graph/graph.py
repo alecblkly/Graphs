@@ -3,9 +3,11 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -96,7 +98,7 @@ class Graph:
             # Set to store visited vertices
             visited = set()
         print(starting_vertex)
-            # Mark it as visited
+        # Mark it as visited
         visited.add(starting_vertex)
         # Call dft_recursive on each neighbor, similar to what was done
         # within dft, but with using recursion
@@ -111,19 +113,34 @@ class Graph:
         breath-first order.
         """
         # Create a Queue
+        q = Queue()
         # Enqueue A PATH TO the starting vertex
+        q.enqueue([starting_vertex])
         # Create a set to store visited vertices
+        visited = set()
         # While the queue is not empty...
+        while q.size() > 0:
             # Dequeue the first PATH
+            path = q.dequeue()
             # GRAB THE VERTEX FROM THE END OF THE PATH
+            v = path[-1]
             # Check if its been visited
-            # If it has been visited...
+            # If it has not been visited...
+            if v not in visited:
                 # Mark it as visited
+                visited.add(v)
                 # CHECK IF IT'S THE TARGET
+                if v == destination_vertex:
                     # IF SO, RETURN THE PATH
-                #Enqueue A PATH TO all it's neighbors
+                    return path
+                # Enqueue A PATH TO all it's neighbors
+                for neighbor in self.get_neighbors(v):
                     # MAKE A COPY OF THE PATH
+                    copy = path.copy()
+                    # Append the neighbor
+                    copy.append(neighbor)
                     # ENQUEUE THE COPY
+                    q.enqueue(copy)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -132,19 +149,34 @@ class Graph:
         depth-first order.
         """
         # Create a Stack
+        s = Stack()
         # Push A PATH TO the starting vertex
+        s.push([starting_vertex])
         # Create a set to store visited vertices
+        visited = set()
         # While the Stack is not empty...
+        while s.size() > 0:
             # Pop the first PATH
+            path = s.pop()
             # GRAB THE VERTEX FROM THE END OF THE PATH
+            v = path[-1]
             # Check if its been visited
             # If it has been visited...
+            if v not in visited:
                 # Mark it as visited
+                visited.add(v)
                 # CHECK IF IT'S THE TARGET
+                if v == destination_vertex:
                     # IF SO, RETURN THE PATH
+                    return path
                 # Push A PATH TO all it's neighbors
+                for neighbor in self.get_neighbors(v):
                     # MAKE A COPY OF THE PATH
+                    copy = path.copy()
+                    # Append the neighbor
+                    copy.append(neighbor)
                     # Push THE COPY
+                    s.push(copy)
 
     def dfs_recursive(self, starting_vertex):
         """
@@ -155,6 +187,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -214,12 +247,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
