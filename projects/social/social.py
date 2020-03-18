@@ -1,4 +1,5 @@
 import random
+from util import Queue  # Importing Queue for BFS
 
 
 class User:
@@ -80,8 +81,34 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # Create a Queue
+        q = Queue()
+        # Enqueue a path to user_id
+        q.enqueue([user_id])
+        # Create a dictionary for key/value pairs
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue the first path
+            path = q.dequeue()
+            # Grab the vertex from the end of the path
+            v = path[-1]
+            # Check if its been visited
+            # IF it has not been visited...
+            if v not in visited:
+                if v is not user_id:
+                    # Do the thing
+                    visited[v] = path
+                # Enqueue a path to all its neighbors
+                for neighbor in self.friendships[v]:
+                    if neighbor not in visited:
+                        # Make a copy of the path
+                        copy = path.copy()
+                        # Append the neighbor
+                        copy.append(neighbor)
+                        # Enqueue the copy
+                        q.enqueue(copy)
+
         return visited
 
 
@@ -89,5 +116,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
