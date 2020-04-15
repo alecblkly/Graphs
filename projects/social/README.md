@@ -53,7 +53,7 @@ Within the populate_graph function, we are utilizing this start of a for loop `f
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-The average degree of separation would be an average of 5.
+The average degree of separation would be an average of 4.5. The percentage of other users belonging in a particular user's extended network would be an average of 99%.
 
 ## 4. Stretch Goal
 
